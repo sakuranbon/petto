@@ -6,7 +6,7 @@ import 'addData.dart';
 
 
 class  Pets extends StatefulWidget {
-  Pets({Key? key }) : super(key: key);
+  Pets({Key? key}) : super(key: key);
 
 
 
@@ -20,11 +20,13 @@ class _PetsState extends State<Pets> {
 
   late Stream<QuerySnapshot> query = FirebaseFirestore.instance.collection('pets').snapshots();
 
+
   @override
   Widget build(BuildContext context) {
 
-    Stream<QuerySnapshot> dog = FirebaseFirestore.instance.collection('pets').where('type2',isEqualTo: 'dog').snapshots() ;
-    Stream<QuerySnapshot> cat = FirebaseFirestore.instance.collection('pets').where('type2',isEqualTo: 'cat').snapshots();Stream<QuerySnapshot> up = FirebaseFirestore.instance.collection('pets').orderBy('age').snapshots() ;
+    Stream<QuerySnapshot> dog = FirebaseFirestore.instance.collection('pets').where('type2',isEqualTo: 'dog').snapshots();
+    Stream<QuerySnapshot> cat = FirebaseFirestore.instance.collection('pets').where('type2',isEqualTo: 'cat').snapshots();
+    Stream<QuerySnapshot> up = FirebaseFirestore.instance.collection('pets').orderBy('age').snapshots();
     Stream<QuerySnapshot> down = FirebaseFirestore.instance.collection('pets').orderBy('age',descending: true).snapshots();
 
 
@@ -76,6 +78,7 @@ class _PetsState extends State<Pets> {
 
         ],
       ),
+
       body: StreamBuilder<QuerySnapshot>(
           stream: query,
           builder: (context, snapshot) {
