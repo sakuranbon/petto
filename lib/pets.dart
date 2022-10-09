@@ -90,7 +90,7 @@ class _PetsState extends State<Pets> {
                   Map<String, dynamic> userData = usersData[index]
                       .data()! as Map<String, dynamic>;
                   return
-                    Text('名前:${userData['name']}  品種:${userData['type']}  性別:${userData['sex']}  年齢:${userData['age']}');
+                    Text('名前:${userData['name']}  品種:${userData['type']}   性別:${userData['sex']}  年齢:${userData['age']}');
                   },
                 separatorBuilder: (BuildContext context,
                     int index) => const Divider(),

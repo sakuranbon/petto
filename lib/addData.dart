@@ -1,4 +1,11 @@
+
+import 'dart:core';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+
+
 
 void main()=> runApp(const MyApp());
 
@@ -13,6 +20,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class AddData extends StatefulWidget {
   const AddData({Key? key}) : super (key: key);
 
@@ -20,11 +28,37 @@ class AddData extends StatefulWidget {
   State<AddData> createState() => _AddData();
 }
 
+
 class _AddData extends State<AddData>{
 
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController typeEditingController = TextEditingController();
   TextEditingController ageEditingController = TextEditingController();
+
+
+  
+  void addPets()async{
+
+    await FirebaseFirestore.instance.collection('pets').add({
+      'name':nameEditingController.text,
+      'age':ageEditingController.text,
+      'type':typeEditingController.text,
+      'type2':type2,
+      'sex':sex,
+
+    });
+
+
+    nameEditingController.clear();
+    typeEditingController.clear();
+    ageEditingController.clear();
+
+  }
+
+  String type2 = '';
+  String sex = '';
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +74,11 @@ class _AddData extends State<AddData>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Expanded(
+              child:Container(
+                width:double.infinity,),),
             Container(
-              padding: EdgeInsets.only(right: 50,left: 50),
+              padding: const EdgeInsets.only(right: 50,left: 50),
               child:TextField(
                 controller:nameEditingController ,
                 decoration: const InputDecoration(
@@ -51,28 +88,42 @@ class _AddData extends State<AddData>{
             const SizedBox(height: 20,),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
-                  children: [
+                    children:[
                     Radio(
-                      value: 0,
-                      groupValue: 0,
-                      onChanged: (value){},
+                      activeColor: Colors.blue,
+                      value: 'dog',
+                      groupValue: type2,
+                      onChanged:(value){
+                        setState(() {
+                          type2 = value!;
+                        });
+                      },
                     ),
-                    const Text('犬')
-                  ],
+
+                    Text('犬')
+                    ]
                 ),
+
                 Row(
-                  children: [
-                    Radio(value: 1,
-                      groupValue: 0,
-                      onChanged: (value) {},
-                    ),
-                    const Text('猫')
-                  ],
-                )
-              ],
+                    children:[
+                      Radio(
+                        activeColor: Colors.blue,
+                        value: 'cat',
+                        groupValue: type2,
+                        onChanged:(value){
+                          setState(() {
+                            type2 = value!;
+                          });
+                        },
+                      ),
+
+                      Text('猫')
+                    ]
+                ),
+              ]
             ),
 
             const SizedBox(height: 20,),
@@ -88,28 +139,42 @@ class _AddData extends State<AddData>{
             const SizedBox(height: 20,),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  children: [
-                    Radio(value: 0,
-                      groupValue: 0,
-                      onChanged: (value) {},
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[Row(
+                  children:[
+                    Radio(
+                      activeColor: Colors.blue,
+                      value: 'オス',
+                      groupValue: sex,
+                      onChanged:(value){
+                        setState(() {
+                          sex = value!;
+                        });
+                      },
                     ),
-                    const Text('オス')
-                  ],
+
+                    Text('オス')
+                  ]
+              ),
+                Row(
+                    children:[
+                      Radio(
+                        activeColor: Colors.blue,
+                        value: 'メス',
+                        groupValue: sex,
+                        onChanged:(value){
+                          setState(() {
+                            sex = value!;
+                          });
+                        },
+                      ),
+
+                      Text('メス')
+                    ]
                 ),
-                Row(
-                  children: [
-                    Radio(value: 1,
-                      groupValue: 0,
-                      onChanged: (value) {},
-                    ),
-                    const Text('メス')
-                  ],
-                )
               ],
             ),
+
 
             const SizedBox(height: 20,),
 
@@ -123,14 +188,29 @@ class _AddData extends State<AddData>{
 
             const SizedBox(height: 20,),
 
-            FloatingActionButton(
-                child:const Text('登録'),
-                onPressed: (){
-                })
+
+            ElevatedButton(
+              onPressed: (){
+                addPets();
+                Navigator.of(context).pop();
+              },
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
+              ),
+              child: const Text('登録', style: TextStyle(color: Colors.white),),
+            ),
 
           ],
         ),
       ),
     );
+
   }
+
 }
+
+
+
+
+
